@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, ExternalLink, Filter, X, Star, Calendar, User, Target, Zap, TrendingUp } from 'lucide-react'
+import ProjectModal from '../components/ProjectModal'
 
 const Portfolio = () => {
   const [selectedFilter, setSelectedFilter] = useState('all')
   const [selectedProject, setSelectedProject] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [visibleItems, setVisibleItems] = useState(9)
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false)
 
   const portfolioItems = [
     {
@@ -357,7 +359,7 @@ const Portfolio = () => {
       </section>
 
       {/* Filter Row */}
-      <section className="py-12 border-b border-gray-800 sticky top-20 bg-black/95 backdrop-blur-sm z-40">
+      <section className="py-6 border-b border-gray-800 sticky top-20 bg-black/95 backdrop-blur-sm z-40">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -365,23 +367,23 @@ const Portfolio = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-col items-center"
           >
-            <div className="flex items-center gap-3 mb-8">
-              <Filter size={24} className="text-pink-500" />
-              <span className="text-white font-bold uppercase tracking-wider">Filter by Category</span>
+            <div className="flex items-center gap-2 mb-4">
+              <Filter size={20} className="text-pink-500" />
+              <span className="text-white font-bold uppercase tracking-wider text-sm">Filter by Category</span>
             </div>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-2">
               {filters.map((filter) => (
                 <button
                   key={filter.id}
                   onClick={() => setSelectedFilter(filter.id)}
-                  className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                  className={`px-4 py-2 rounded-full font-semibold text-sm transition-all duration-300 ${
                     selectedFilter === filter.id
                       ? 'bg-gradient-to-r from-pink-500 to-cyan-400 text-white'
                       : 'bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700'
                   }`}
                 >
                   {filter.label}
-                  <span className="ml-2 text-sm opacity-75">({filter.count})</span>
+                  <span className="ml-1 text-xs opacity-75">({filter.count})</span>
                 </button>
               ))}
             </div>
@@ -670,13 +672,13 @@ const Portfolio = () => {
               Let's create something amazing together. Get in touch to discuss your vision.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link
-                to="/contact"
+              <button
+                onClick={() => setIsProjectModalOpen(true)}
                 className="group relative px-12 py-4 bg-gradient-to-r from-pink-500 to-cyan-400 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/25"
               >
                 <span className="relative z-10">Start a Project</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </Link>
+              </button>
               <Link
                 to="/services"
                 className="px-12 py-4 border-2 border-white text-white font-bold text-lg rounded-full hover:bg-white hover:text-black transition-all duration-300"
@@ -687,6 +689,12 @@ const Portfolio = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Project Modal */}
+      <ProjectModal 
+        isOpen={isProjectModalOpen} 
+        onClose={() => setIsProjectModalOpen(false)} 
+      />
     </div>
   )
 }

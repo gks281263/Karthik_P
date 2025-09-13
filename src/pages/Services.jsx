@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Plus, Minus, Clock, DollarSign, CheckCircle, Star, Users, Award, Zap, Camera, Video, Edit3, Share2, Search, Code, MessageCircle, Calendar, Shield, FileText } from 'lucide-react'
+import ContactModal from '../components/ContactModal'
 
 const Services = () => {
   const [expandedService, setExpandedService] = useState(null)
   const [expandedFAQ, setExpandedFAQ] = useState(null)
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false)
 
   const services = [
     {
@@ -561,19 +563,25 @@ const Services = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Link
-                  to="/contact"
+                <button
+                  onClick={() => setIsContactModalOpen(true)}
                   className="inline-flex items-center px-12 py-4 bg-white text-black font-bold text-lg rounded-full hover:shadow-2xl transition-all duration-300"
                 >
                   Contact Me
                   <ArrowRight size={20} className="ml-2" />
-                </Link>
+                </button>
               </motion.div>
             </div>
             <div className="absolute inset-0 bg-black/20"></div>
           </motion.div>
         </div>
       </section>
+
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </div>
   )
 }

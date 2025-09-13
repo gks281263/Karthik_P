@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Instagram, Youtube, Linkedin, Mail, ArrowRight } from 'lucide-react'
+import ProjectModal from './ProjectModal'
 
 const Footer = () => {
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false)
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [
@@ -89,16 +92,16 @@ const Footer = () => {
                 editing, and digital marketing that drives results.
               </p>
               <div className="flex space-x-6">
-                {socialLinks.map(({ href, label }) => (
+                {socialLinks.map(({ icon: Icon, href, label }) => (
                   <motion.a
                     key={label}
                     href={href}
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     whileTap={{ scale: 0.9 }}
-                    className="p-3 bg-gray-800 rounded-full hover:bg-gradient-to-r hover:from-fuchsia-500 hover:via-purple-500 hover:to-cyan-400 transition-all duration-300"
+                    className="p-3 bg-gray-800 rounded-full hover:bg-gradient-to-r hover:from-fuchsia-500 hover:via-purple-500 hover:to-cyan-400 transition-all duration-300 group"
                     aria-label={label}
                   >
-                    <span className="text-white text-xl">📱</span>
+                    <Icon size={24} className="text-white group-hover:text-white transition-colors duration-300" />
                   </motion.a>
                 ))}
               </div>
@@ -143,13 +146,13 @@ const Footer = () => {
                   <span className="text-gray-300">Available Worldwide</span>
                 </div>
               </div>
-              <Link 
-                to="/contact" 
+              <button 
+                onClick={() => setIsProjectModalOpen(true)}
                 className="group relative inline-flex items-center px-6 py-3 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-cyan-400 text-white font-bold rounded-full overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-glow"
               >
                 <span className="relative z-10">Start a Project</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-fuchsia-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </Link>
+              </button>
             </motion.div>
           </div>
         </div>
@@ -202,6 +205,12 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal 
+        isOpen={isProjectModalOpen} 
+        onClose={() => setIsProjectModalOpen(false)} 
+      />
     </footer>
   )
 }

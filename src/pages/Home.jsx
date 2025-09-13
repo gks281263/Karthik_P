@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Play, Star, Camera, Video, Edit3, Share2, Search, Code, ArrowRight, ExternalLink, Users, TrendingUp, Award } from 'lucide-react'
+import { Play, Star, Camera, Video, Edit3, Share2, Search, Code, ArrowRight, ExternalLink, Users, TrendingUp, Award, Instagram, Youtube, Linkedin } from 'lucide-react'
+import ContactModal from '../components/ContactModal'
 
 const Home = () => {
   const [selectedFilter, setSelectedFilter] = useState('all')
   const [currentSpecialty, setCurrentSpecialty] = useState(0)
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false)
 
   const specialties = [
     "Photography",
@@ -244,12 +246,12 @@ const Home = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-fuchsia-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Link>
               
-              <Link
-                to="/contact"
+              <button
+                onClick={() => setIsContactModalOpen(true)}
                 className="px-12 py-4 border-2 border-gray-300 text-white font-bold text-lg rounded-full hover:bg-gray-300 hover:text-gray-950 transition-all duration-300"
               >
                 Contact Me
-              </Link>
+              </button>
             </motion.div>
           </motion.div>
         </div>
@@ -700,18 +702,18 @@ const Home = () => {
                 <h3 className="text-2xl font-bold mb-6 text-white">Follow Me</h3>
                 <div className="grid grid-cols-3 gap-4">
                   {[
-                    { name: 'Instagram', icon: '📷', color: 'from-fuchsia-500 to-purple-500' },
-                    { name: 'YouTube', icon: '🎥', color: 'from-red-500 to-fuchsia-500' },
-                    { name: 'LinkedIn', icon: '💼', color: 'from-blue-500 to-cyan-500' }
+                    { name: 'Instagram', icon: Instagram, color: 'from-fuchsia-500 to-purple-500' },
+                    { name: 'YouTube', icon: Youtube, color: 'from-red-500 to-fuchsia-500' },
+                    { name: 'LinkedIn', icon: Linkedin, color: 'from-blue-500 to-cyan-500' }
                   ].map((social, index) => (
                     <motion.a
                       key={index}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       href="#"
-                      className={`p-4 bg-gradient-to-r ${social.color} rounded-xl text-center hover:shadow-lg transition-all duration-300`}
+                      className={`p-4 bg-gradient-to-r ${social.color} rounded-xl text-center hover:shadow-lg transition-all duration-300 group`}
                     >
-                      <div className="text-2xl mb-2">{social.icon}</div>
+                      <social.icon size={24} className="text-white mx-auto mb-2 group-hover:scale-110 transition-transform duration-300" />
                       <p className="text-white font-semibold text-sm">{social.name}</p>
                     </motion.a>
                   ))}
@@ -756,6 +758,12 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </div>
   )
 }

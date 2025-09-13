@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Instagram, Youtube, Linkedin } from 'lucide-react'
+import ProjectModal from './ProjectModal'
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
@@ -95,13 +97,13 @@ const Header = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="hidden lg:block"
           >
-            <Link
-              to="/contact"
+            <button
+              onClick={() => setIsProjectModalOpen(true)}
               className="group relative px-8 py-3 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-cyan-400 text-white font-bold rounded-full overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-glow-lg"
             >
-              <span className="relative z-10">BOOK / HIRE</span>
+              <span className="relative z-10">Start a Project</span>
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-fuchsia-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </Link>
+            </button>
           </motion.div>
 
           {/* Mobile Menu Button */}
@@ -183,14 +185,16 @@ const Header = () => {
                 transition={{ duration: 0.4, delay: 0.4 }}
                 className="mt-12"
               >
-                <Link
-                  to="/contact"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                <button
+                  onClick={() => {
+                    setIsProjectModalOpen(true)
+                    setIsMobileMenuOpen(false)
+                  }}
                   className="group relative px-12 py-4 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-cyan-400 text-white font-extrabold text-lg rounded-full overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-glow-lg"
                 >
-                  <span className="relative z-10">BOOK / HIRE</span>
+                  <span className="relative z-10">Start a Project</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-fuchsia-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </Link>
+                </button>
               </motion.div>
 
               {/* Social Icons */}
@@ -218,6 +222,12 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Project Modal */}
+      <ProjectModal 
+        isOpen={isProjectModalOpen} 
+        onClose={() => setIsProjectModalOpen(false)} 
+      />
     </motion.header>
   )
 }
